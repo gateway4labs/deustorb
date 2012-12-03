@@ -1,0 +1,2 @@
+require "deustorb/version"
+
