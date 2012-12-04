@@ -2,17 +2,17 @@ require 'spec_helper'
 
 module Deustorb
   describe Client do
+    let(:login)         { "#{deusto_server}/login/json/" }
+    let(:client)        { Client.new(deusto_server) }
+    let(:core_services) { "#{deusto_server}/json/" }
     let(:deusto_server) { 'weblab.deusto.example.com' }
 
     it "requires a server URL" do
       expect{ Client.new }.to raise_error(ArgumentError)
-      expect(Client.new(deusto_server).base_url).to eql(deusto_server)
+      expect(client.base_url).to eql(deusto_server)
     end
 
     describe "#login" do
-      let(:login) { "#{deusto_server}/login/json/"}
-      let(:client) { Client.new(deusto_server) }
-
       context "with valid credentials" do
         before { FakeWeb.register_uri(:post, login, :body => login_response) }
         it "returns the server response credentials" do
@@ -38,11 +38,12 @@ module Deustorb
     describe "#list_experiments" do
       before do
         FakeWeb.register_uri(:post, login, :body => login_response)
+        FakeWeb.register_uri(:post, core_services, :body => experiments_list)
         client.login('username', 'password')
       end
 
       it "returns an array of experiments" do
-        
+        expect(client.list_experiments).to eql(JSON.parse(experiments_list))
       end
     end
   end
