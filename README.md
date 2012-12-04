@@ -1,6 +1,10 @@
 # DeustoRB
 
+## Please don't use this. Yet.
+
 DeustoRB is a simple client for the WebLab Deusto remote laboratory platform.
+
+Based on the Python version.
 
 ## Installation
 
@@ -18,7 +22,13 @@ Or install it yourself as:
 
 ## Usage
 
-TBD
+```ruby
+  client = Deustorb::Client.new('weblab.deusto.server.url.com')
+
+  client.login('username', 'password') # => {"result"=>{"id"=>"some-sesion-id"}, "is_exception"=>false}
+
+  client.list_experiments # => huge hash with experiments
+```
 
 ## Contributing
 
