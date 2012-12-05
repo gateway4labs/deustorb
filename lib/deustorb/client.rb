@@ -13,7 +13,7 @@ module Deustorb
         "method" => "login",
         "params" => {"username" => username, "password" => password}
       }
-      @raw_auth = post(url_for(:login), params)
+      @raw_auth = post(Deustorb.url_for(base_url, :login), params)
       @auth = JSON.parse(@raw_auth.to_s)
     end
 
@@ -29,7 +29,7 @@ module Deustorb
             "session_id" => {"id" => auth.fetch('result'){{}}.fetch('id') }
           }
         }
-        @experiments = JSON.parse post(url_for(:core), params)
+        @experiments = JSON.parse post(Deustorb.url_for(base_url, :core), params)
       end
     end
 
@@ -50,17 +50,6 @@ module Deustorb
 
     def cookies
       @raw_auth.cookies
-    end
-
-    def url_for(action)
-      url_map[action]
-    end
-
-    def url_map
-      {
-        :core   => "#{base_url}/json/",
-        :login  => "#{base_url}/login/json/"
-      }
     end
   end
 end
