@@ -11,7 +11,7 @@ module Deustorb
     end
 
     it "takes an attributes hash" do
-      exp = Experiment.new(name: 'robot-movement', category_name: 'robots')
+      exp = Experiment.new(:name => 'robot-movement', :category_name => 'robots')
       expect(exp.name).to eql('robot-movement')
       expect(exp.category_name).to eql('robots')
     end
