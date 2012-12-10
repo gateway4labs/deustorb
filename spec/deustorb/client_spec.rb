@@ -14,7 +14,7 @@ module Deustorb
 
     describe "#login" do
       context "with valid credentials" do
-        before { FakeWeb.register_uri(:post, login, :body => login_response) }
+        before { fake_it(login, login_response) }
         it "returns the server response credentials" do
           expect(client.login('username', 'password')).to eql(JSON.parse(login_response))
         end
@@ -26,7 +26,7 @@ module Deustorb
       end
 
       context "with invalid credentials" do
-        before { FakeWeb.register_uri(:post, login, :body => failed_login_response) }
+        before { fake_it(login, failed_login_response) }
 
         it "does not authenticate the user" do
           client.login('user', 'password')
@@ -37,9 +37,12 @@ module Deustorb
   
     describe "#list_experiments" do
       before do
-        FakeWeb.register_uri(:post, login, :body => login_response)
-        FakeWeb.register_uri(:post, core_services, :body => experiments_list)
-        client.login('username', 'password')
+        fake_it(login, login_response)
+        fake_it(core_services, experiments_list)
+
+        # Make it an authorized client
+        client.stub(:authenticated?).and_return(true)
+        client.stub(:session_id => "session", :cookies => {})
       end
 
       it "returns an array of experiments" do
