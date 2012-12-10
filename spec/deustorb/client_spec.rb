@@ -43,7 +43,8 @@ module Deustorb
       end
 
       it "returns an array of experiments" do
-        expect(client.list_experiments).to eql(JSON.parse(experiments_list))
+        expect(client.list_experiments).to have(JSON.parse(experiments_list)['result'].size).elements
+        expect(client.list_experiments.first).to be_a(Deustorb::Experiment)
       end
     end
   end

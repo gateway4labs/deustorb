@@ -26,21 +26,43 @@ module Deustorb
         params = {
           "method" => "list_experiments",
           "params" => {
-            "session_id" => {"id" => auth.fetch('result'){{}}.fetch('id') }
+            "session_id" => session_id
           }
         }
-        @experiments = JSON.parse post(Deustorb.url_for(base_url, :core), params)
+        @experiments = parse_experiments(post(Deustorb.url_for(base_url, :core), params, {:cookies => cookies}))
       end
+    end
+
+    def reserve_experiment(experiment, client_initial_data, consumer_data)
+      serialized_experiment_id = {
+        'exp_name' => experiment.exp_name,
+        'cat_name' => experiment.cat_name
+      }
     end
 
     private
 
-    def post(url, params)
-      http_request(:post, url, params)
+    def parse_experiments(response)
+      JSON.parse(response).fetch('result'){[]}.map do |exp_hash|
+        Experiment.new do |exp|
+          exp.id            = exp_hash.fetch('experiment').fetch('id')
+          exp.name          = exp_hash.fetch('experiment').fetch('name')
+          exp.time_allowed  = exp_hash.fetch('time_allowed')
+          exp.category_name = exp_hash.fetch('experiment').fetch('category').fetch('name')
+        end
+      end
     end
 
-    def http_request(method, url, params)
-      RestClient.public_send(method, url, JSON.dump(params))
+    def session_id
+      {"id" => auth.fetch('result'){{}}.fetch('id') }
+    end
+
+    def post(url, params, headers = {})
+      http_request(:post, url, params, headers)
+    end
+
+    def http_request(http_method, url, params, headers = {})
+      RestClient.public_send(http_method, url, JSON.dump(params), headers)
     end
 
     def authenticated_request
