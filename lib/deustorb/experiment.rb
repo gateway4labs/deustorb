@@ -12,7 +12,7 @@ module Deustorb
 
     def self.new_from_identifier(identifier)
       name, category = identifier.split(TOKEN)
-      new(:name => name, :category_name => category)
+      new(name: name, category_name: category)
     end
   end
 end

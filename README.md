@@ -6,9 +6,14 @@ DeustoRB is a simple client for the WebLab Deusto remote laboratory platform.
 
 Based on the Python version.
 
-[![Build Status](https://secure.travis-ci.org/lms4labs/deustorb.png)](http://travis-ci.org/lms4labs/deustorb)
+[![Build Status](https://travis-ci.org/lms4labs/deustorb.png)](http://travis-ci.org/lms4labs/deustorb)
 
-## Installation
+## Testing & Development
+
+Download the repo and make your changes (add some tests for them). Then, you can run `bundle exec rake` and
+the test suite will run. If it's red, fix it.
+
+## Installation - NOT YET
 
 Add this line to your application's Gemfile:
 

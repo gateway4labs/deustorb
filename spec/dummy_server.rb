@@ -43,9 +43,15 @@ module Deustorb
     end
   end
 
+  # Responses from the Weblab Deusto client
+  # These responses are read from ./spec/support/helpers.rb
   class Responder
     def self.list_experiments
       experiments_list
+    end
+
+    def reserve_experiment
+      waiting_reservation
     end
   end
 end
