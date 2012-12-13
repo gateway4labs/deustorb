@@ -2,19 +2,16 @@ require 'spec_helper'
 
 module Deustorb
   describe Client do
-    let(:login)         { "#{deusto_server}/login/json/" }
-    let(:client)        { Client.new(deusto_server) }
-    let(:core_services) { "#{deusto_server}/json/" }
-    let(:deusto_server) { 'weblab.deusto.example.com' }
+    let(:client)        { Client.new(deusto_server_url) }
 
     it "requires a server URL" do
       expect{ Client.new }.to raise_error(ArgumentError)
-      expect(client.base_url).to eql(deusto_server)
+      expect(client.base_url).to eql(deusto_server_url)
     end
 
     describe "#login" do
       context "with valid credentials" do
-        before { fake_it(login, login_response) }
+        before { fake_it(login_url, login_response) }
         it "returns the server response credentials" do
           expect(client.login('username', 'password')).to eql(JSON.parse(login_response))
         end
@@ -26,7 +23,7 @@ module Deustorb
       end
 
       context "with invalid credentials" do
-        before { fake_it(login, failed_login_response) }
+        before { fake_it(login_url, failed_login_response) }
 
         it "does not authenticate the user" do
           expect{client.login('user', 'password')}.to raise_error(WebLabException)
@@ -36,8 +33,8 @@ module Deustorb
   
     describe "#list_experiments" do
       before do
-        fake_it(login, login_response)
-        fake_it(core_services, experiments_list)
+        fake_it(login_url, login_response)
+        fake_it(core_services_url, experiments_list)
 
         # Make it an authorized client
         client.stub(:authenticated?).and_return(true)

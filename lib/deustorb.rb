@@ -2,6 +2,7 @@ require "json"
 require "deustorb/version"
 require "deustorb/client"
 require "deustorb/experiment"
+require "deustorb/reservation"
 
 module Deustorb
   def self.url_for(base_url, action)

@@ -85,6 +85,11 @@ module Deustorb
 
     private
 
+    def parse_reservations(response)
+      response = JSON.parse(response).fetch('result'){{}}
+      Reservation.new_from_response(response)
+    end
+
     # Turns a hash into a JSON string if it's able to do it.
     # If not, returns the object (which is supposed to be a string)
     def json_string(object_or_string)
