@@ -60,9 +60,11 @@ module Deustorb
     # parameters:
     #
     # experiment: A Deustorb::Experiment object. The one you want to reserve.
-    # client_initial_data: Extra data sent to the server. A String or Hash.
-    # consumer_data: The consumer data sent to the server. A String or Hash.
-    def reserve_experiment(experiment, client_initial_data, consumer_data)
+    #
+    # client_initial_data: Extra data sent to the server. A Hash. Default to empty hash.
+    #
+    # consumer_data: The consumer data sent to the server. A Hash. Default to empty hash.
+    def reserve_experiment(experiment, client_initial_data = {}, consumer_data = {})
       authenticated_request do
         params = {
           method: 'reserve_experiment',
@@ -77,7 +79,7 @@ module Deustorb
           }
         }
         # TODO: Manage the response with our classes
-        JSON.parse(post(Deustorb.url_for(base_url, :core), params, {:cookies => cookies}))
+        post(Deustorb.url_for(base_url, :core), params, {:cookies => cookies})
       end
     end
 
@@ -112,8 +114,13 @@ module Deustorb
       http_request(:post, url, params, headers)
     end
 
-    def http_request(http_method, url, params, headers = {})
-      RestClient.public_send(http_method, url, JSON.dump(params), headers)
+    def http_request(http_method, url, params = {}, headers = {})
+      RestClient.public_send(http_method, url, JSON.dump(params), headers).tap do |response|
+        json = JSON.parse(response)
+        if json.fetch('is_exception') == true
+          raise WebLabException.new(json['message'], json['code'])
+        end
+      end
     end
 
     # TODO: Raise a proper exception here.

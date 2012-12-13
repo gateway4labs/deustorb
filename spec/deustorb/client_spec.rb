@@ -29,8 +29,7 @@ module Deustorb
         before { fake_it(login, failed_login_response) }
 
         it "does not authenticate the user" do
-          client.login('user', 'password')
-          expect(client).not_to be_authenticated
+          expect{client.login('user', 'password')}.to raise_error(WebLabException)
         end
       end
     end

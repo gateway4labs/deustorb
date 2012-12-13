@@ -14,4 +14,19 @@ module Deustorb
       :login  => "/login/json/"
     }
   end
+
+  # A general DeustoRB exception
+  class Error < StandardError; end
+
+  class WebLabException < Error
+    attr_reader :message, :code
+
+    def initialize(message = nil, code = nil)
+      @message, @code = message, code
+    end
+
+    def to_s
+      @message
+    end
+  end
 end
