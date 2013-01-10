@@ -11,7 +11,7 @@ module Deustorb
     attr_reader :base_url, :auth, :experiments
 
     def initialize(base_url)
-      @base_url = base_url.sub(/\/+$/,'') # remove trailing `/`
+      @base_url = base_url.sub(/\/+$/,'') # remove trailing `/`s
     end
 
     # Logs in a client given a `username` and `password`.
@@ -20,8 +20,8 @@ module Deustorb
     # will be raised.
     def login(username, password)
       params = {
-        "method" => "login",
-        "params" => {"username" => username, "password" => password}
+        method: "login",
+        params: {username: username, password: password}
       }
       @raw_auth = post(Deustorb.url_for(base_url, :login), params)
       @auth = JSON.parse(@raw_auth)
@@ -42,9 +42,9 @@ module Deustorb
     def list_experiments
       authenticated_request do
         params = {
-          "method" => "list_experiments",
-          "params" => {
-            "session_id" => session_id
+          method: "list_experiments",
+          params: {
+            session_id: session_id
           }
         }
         result = post(Deustorb.url_for(base_url, :core), params, {:cookies => cookies})
@@ -112,7 +112,7 @@ module Deustorb
     # Returns a hash with the session ID information needed
     # for making calls to the server.
     def session_id
-      {"id" => auth.fetch('result'){{}}.fetch('id') }
+      { id: auth.fetch('result'){{}}.fetch('id') }
     end
 
     def post(url, params, headers = {})
