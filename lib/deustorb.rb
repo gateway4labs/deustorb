@@ -17,7 +17,7 @@ module Deustorb
   end
 
   # A general DeustoRB exception
-  class Error < StandardError; end
+  class Error < ::StandardError; end
 
   class WebLabException < Error
     attr_reader :message, :code

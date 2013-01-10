@@ -2,7 +2,7 @@ require 'spec_helper'
 
 module Deustorb
   describe Client do
-    let(:client)        { Client.new(deusto_server_url) }
+    let(:client) { Client.new(deusto_server_url) }
 
     it "requires a server URL" do
       expect{ Client.new }.to raise_error(ArgumentError)
@@ -30,7 +30,7 @@ module Deustorb
         end
       end
     end
-  
+
     describe "#list_experiments" do
       before do
         fake_it(login_url, login_response)
