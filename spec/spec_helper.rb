@@ -1,9 +1,7 @@
-require 'rspec'
-require "bundler/setup"
+require "bundler"
 require 'deustorb'
 
-# Fuck you Bundler
-Bundler.require.each{|dp| require dp.name }
+Bundler.require(:default, :test, :development)
 
 Dir[File.join(File.expand_path('../', __FILE__), "support/**/*.rb")].each {|f| require f}
 
