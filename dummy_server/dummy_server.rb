@@ -1,4 +1,7 @@
-lib = File.expand_path('../', __FILE__)
+spec = File.expand_path('../../spec', __FILE__)
+lib = File.expand_path('../../', __FILE__)
+
+$LOAD_PATH.unshift(spec) unless $LOAD_PATH.include?(spec)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 require 'spec_helper'
