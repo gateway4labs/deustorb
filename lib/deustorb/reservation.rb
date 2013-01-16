@@ -1,4 +1,7 @@
+require 'deustorb/reservations/waiting'
+
 module Deustorb
-  class Reservation
+  module Reservation
+    WAITING = 'waiting'
   end
 end
