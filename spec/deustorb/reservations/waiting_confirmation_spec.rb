@@ -7,7 +7,7 @@ module Deustorb
         Deustorb::Reservation::WaitingConfirmation.new(id: 'some-id', url: 'example.com')
       end
 
-      it "has a waiting status" do
+      it "has a waiting confirmation status" do
         expect(reservation.status).to eql(Reservation::WAITING_CONFIRMATION)
       end
 

@@ -7,7 +7,7 @@ module Deustorb
         Deustorb::Reservation::WaitingInstances.new(id: 'some-id', position: 3)
       end
 
-      it "has a waiting status" do
+      it "has a waiting instances status" do
         expect(reservation.status).to eql(Reservation::WAITING_INSTANCES)
       end
 
