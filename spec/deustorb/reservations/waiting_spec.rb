@@ -1,4 +1,5 @@
 require 'spec_helper'
+
 module Deustorb
   module Reservation
     describe Waiting do
