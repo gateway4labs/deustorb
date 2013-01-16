@@ -17,17 +17,23 @@ module Deustorb
   end
 
   # A general DeustoRB exception
-  class Error < ::StandardError; end
+  class Error < ::StandardError
+    def initialize(message = nil)
+      @message = message
+    end
+
+    def to_s
+      @message || super
+    end
+  end
 
   class WebLabException < Error
-    attr_reader :message, :code
+    attr_reader :code
 
     def initialize(message = nil, code = nil)
       @message, @code = message, code
     end
-
-    def to_s
-      @message
-    end
   end
+
+  class InvalidReservation < Error; end
 end
